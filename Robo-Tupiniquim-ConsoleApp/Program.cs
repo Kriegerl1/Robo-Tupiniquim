@@ -73,7 +73,7 @@
                 }
 
 
-                Console.WriteLine($"Posição final do robô: ({posX}, {posY})\n");
+                Console.WriteLine($"Posição final do robô: ({posY}, {posX})\n");
                 visaoDoRobo(visao);
                 //processarOrdem();
 
