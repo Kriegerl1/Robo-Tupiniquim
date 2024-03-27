@@ -8,11 +8,17 @@
 
             geradorDeMatriz();
             int posicaoXInicial = obterValor<int>("Digite a cord X: ");
+
             int posicaoYInicial = obterValor<int>("Digite a cord Y: ");
+
             int visao = obterValor<int>("Qual a direção que o robo está olhando? ");
-            controlador(posicaoYInicial,posicaoXInicial, visao);
+
+            controlador(posicaoXInicial,posicaoYInicial, visao);
+
         }
 
+
+        #region Lembrete
         //Inputs Passados
 
         // E M E M E M E M M
@@ -20,15 +26,22 @@
         // M M D M M D M D D M
 
 
+        // Thread.Sleep(2000); Uso do comando Sleep para 2 segundos;
 
-        static int visao = 0; // 0- Norte,1- Leste, 2- Sul, 3- Oeste
+        #endregion
+
+
+
+
+        public static int visao = 0; // 0- Norte,1- Leste, 2- Sul, 3- Oeste
         static int linhas;
         static int colunas;
 
-        static void movimentar(string[] comandos, int posXInicial, int posYInicial, int visao)
+        static void movimentar(string[] comandos, int posYInicial, int posXInicial, int visao)
         {
-            int posX = posXInicial;
             int posY = posYInicial;
+            int posX = posXInicial;
+
 
             foreach (var comando in comandos)
             {
@@ -38,16 +51,16 @@
                         switch (visao)
                         {
                             case 0: // Leste
-                                posX = Math.Min(posX + 1, colunas - 1);
+                                posY = Math.Min(posY + 1, colunas - 1);
                                 break;
                             case 1: // Norte
-                                posY = Math.Max(0, posY - 1);
-                                break;
-                            case 2: // Oeste
                                 posX = Math.Max(0, posX - 1);
                                 break;
+                            case 2: // Oeste
+                                posY = Math.Max(0, posY - 1);
+                                break;
                             case 3: // Sul
-                                posY = Math.Min(posY + 1, linhas - 1);
+                                posX = Math.Min(posX + 1, linhas - 1);
                                 break;
                         }
                         break;
@@ -59,11 +72,20 @@
                         break;
                 }
 
+
                 Console.WriteLine($"Posição final do robô: ({posX}, {posY})\n");
                 visaoDoRobo(visao);
+                //processarOrdem();
+
             }
         }
 
+
+        static void processarOrdem()
+        {
+            Console.WriteLine("Processando comando.");
+            Thread.Sleep(500);
+        }
 
 
         static void controlador(int posXInicial, int posYInicial, int visao)
@@ -86,34 +108,34 @@
         }
 
 
-        static void geradorDeMatriz()
-        {
-            linhas = obterValor<int>("Digite a quantidade de Linhas (Eixo X) da matriz: ");
-            colunas = obterValor<int>("Digite a quantidade de Colunas (Eixo Y) da matriz: ");
-
-            string[,] matriz = new string[linhas, colunas];
-            Console.Clear();
-            for (int i = 0; i < linhas; i++)
+            static void geradorDeMatriz()
             {
-                for (int j = 0; j < colunas; j++)
+                linhas = obterValor<int>("Digite a quantidade de Linhas (Eixo X) da matriz: ") + 1;
+                colunas = obterValor<int>("Digite a quantidade de Colunas (Eixo Y) da matriz: ") + 1;
+
+                string[,] matriz = new string[linhas, colunas];
+                Console.Clear();
+                for (int i = 1; i < linhas; i++)
                 {
-                    int linhaInversa = (linhas - 1) - i;
-                    matriz[i, j] = $"[{linhaInversa},{j}]";
+                    for (int j = 1; j < colunas; j++)
+                    {
+                        int linhaInversa = linhas  - i;
+                        matriz[i, j] = $"[{linhaInversa},{j}]";
+                    }
                 }
-            }
 
-            for (int i = 0; i < linhas; i++)
-            {
-                for (int j = 0; j < colunas; j++)
+                for (int i = 1; i < linhas; i++)
                 {
+                    for (int j = 1; j < colunas; j++)
+                    {
 
-                    Console.Write(matriz[i, j] + " ");
+                        Console.Write(matriz[i, j] + " ");
+                    }
+                    Console.WriteLine();
+                    Console.WriteLine();
                 }
-                Console.WriteLine();
-                Console.WriteLine();
-            }
 
-        }
+            }
 
 
         static tipo obterValor<tipo>(string texto)
