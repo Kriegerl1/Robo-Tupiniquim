@@ -37,7 +37,7 @@
         static int linhas;
         static int colunas;
 
-        static void movimentar(string[] comandos, int posYInicial, int posXInicial, int visao)
+        static void movimentar(string[] comandos, int posXInicial, int posYInicial, int visao)
         {
             int posY = posYInicial;
             int posX = posXInicial;
@@ -50,17 +50,17 @@
                     case "M": // Move o robô na direção em que está olhando
                         switch (visao)
                         {
-                            case 0: // Leste
-                                posY = Math.Min(posY + 1, colunas - 1);
+                            case 0: // Norte
+                                posY = Math.Min(posY + 1, linhas + 1);
                                 break;
-                            case 1: // Norte
-                                posX = Math.Max(0, posX - 1);
+                            case 1: // Leste
+                                posX = Math.Max(+1, posX - 1);
                                 break;
-                            case 2: // Oeste
-                                posY = Math.Max(0, posY - 1);
+                            case 2: // Sul
+                                posY = Math.Max(+1, posY - 1);
                                 break;
-                            case 3: // Sul
-                                posX = Math.Min(posX + 1, linhas - 1);
+                            case 3: // Oeste
+                                posX = Math.Min(posX + 1, colunas + 1);
                                 break;
                         }
                         break;
@@ -72,9 +72,8 @@
                         break;
                 }
 
-
-                Console.WriteLine($"Posição final do robô: ({posY}, {posX})\n");
                 visaoDoRobo(visao);
+                Console.WriteLine($"Coordanada atual do robô é: ({posX}, {posY})\n");
                 //processarOrdem();
 
             }
