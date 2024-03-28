@@ -1,46 +1,37 @@
-﻿namespace Robo_Tupiniquim_ConsoleApp
+﻿namespace Desafio_Robo_Tupiniquim_ConsoleApp
 {
     internal class Program
     {
+        static int posX;
+        static int posY;
+        static int direcao;
+        static int linhas = obterValor<int>("Digite o tamanho do eixo X da matriz: ");
+        static int colunas = obterValor<int>("Digite o tamanho do eixo Y da matriz: ");
         static void Main(string[] args)
         {
-            Console.WriteLine("Robo Tupiniquim | Academia de programação 2024!\n");
+            Console.WriteLine("Desaifio Robô Tupiniquim | Academia de Programação 2024!\n");
 
-            geradorDeMatriz();
-            int posicaoXInicial = obterValor<int>("Digite a cord X: ");
 
-            int posicaoYInicial = obterValor<int>("Digite a cord Y: ");
-
-            int visao = obterValor<int>("Qual a direção que o robo está olhando? ");
-
-            controlador(posicaoXInicial,posicaoYInicial, visao);
-
+            geradorDeMatriz(linhas, colunas);
+            comandoRobo();
+            comandoRobo();
         }
 
 
-        #region Lembrete
-        //Inputs Passados
-
-        // E M E M E M E M M
-
-        // M M D M M D M D D M
-
-
-        // Thread.Sleep(2000); Uso do comando Sleep para 2 segundos;
-
-        #endregion
-
-
-
-
-        public static int visao = 0; // 0- Norte,1- Leste, 2- Sul, 3- Oeste
-        static int linhas;
-        static int colunas;
-
-        static void movimentar(string[] comandos, int posXInicial, int posYInicial, int visao)
+        static void comandoRobo()
         {
-            int posY = posYInicial;
-            int posX = posXInicial;
+            string[] comandos, deployTupiniquim;
+
+            string deploy = obterValor<string>("Digite as coordenadas do deploy do robo: \n" +
+                "Utilize o padrão((Coordenada X) (Coordenada Y) (Direção))");
+            deployTupiniquim = deploy.Split(" ");
+
+            string inputDeComandos = obterValor<string>("Insira os comandos para o robô: ");
+            comandos = inputDeComandos.Split(" ");
+
+            posX = int.Parse(deployTupiniquim[0]);
+            posY = int.Parse(deployTupiniquim[1]);
+            direcao = int.Parse(deployTupiniquim[2]);
 
 
             foreach (var comando in comandos)
@@ -48,93 +39,77 @@
                 switch (comando)
                 {
                     case "M": // Move o robô na direção em que está olhando
-                        switch (visao)
+
+                        switch (direcao)
                         {
                             case 0: // Norte
-                                posY = Math.Min(posY + 1, linhas + 1);
+                                posY = Math.Min(posY + 1, colunas - 1);
                                 break;
                             case 1: // Leste
-                                posX = Math.Max(+1, posX - 1);
+                                posX = Math.Max(0, posX + 1);
                                 break;
                             case 2: // Sul
-                                posY = Math.Max(+1, posY - 1);
+                                posY = Math.Max(0, posY - 1);
                                 break;
                             case 3: // Oeste
-                                posX = Math.Min(posX + 1, colunas + 1);
+                                posX = Math.Min(posX - 1, linhas - 1);
                                 break;
                         }
+
                         break;
+
+
+
                     case "D": // Vira para a direita
-                        visao = (visao + 1) % 4;
+                        direcao = (direcao + 1) % 4;
                         break;
                     case "E": // Vira para a esquerda
-                        visao = (visao - 1 + 4) % 4;
+                        direcao = (direcao - 1 + 4) % 4;
                         break;
                 }
-
-                visaoDoRobo(visao);
-                Console.WriteLine($"Coordanada atual do robô é: ({posX}, {posY})\n");
-                //processarOrdem();
-
             }
+
+
+            Console.WriteLine($"Posição final do robô: ({posX}, {posY})\n");
+            TupiniquimLog(direcao);
+            //processarOrdem();
+
         }
 
 
-        static void processarOrdem()
+
+
+        static void TupiniquimLog(int direcao)
         {
-            Console.WriteLine("Processando comando.");
-            Thread.Sleep(500);
-        }
-
-
-        static void controlador(int posXInicial, int posYInicial, int visao)
-        {
-            string comandosInput = obterValor<string>("Insira os comandos para o robô: ");
-            string[] comandos = comandosInput.Split(" ");
-
-            movimentar(comandos,posXInicial, posYInicial, visao);
-        }
-
-        static void visaoDoRobo(int visao)
-        {
-            switch (visao)
+            switch (direcao)
             {
-                case 0: Console.WriteLine("O robô está olhando para o norte!"); break;
-                case 1: Console.WriteLine("O robô está olhando para o oeste!"); break;
-                case 2: Console.WriteLine("O robô está olhando para o sul!"); break;
-                case 3: Console.WriteLine("O robô está olhando para o leste!"); break;
+                case 0: Console.WriteLine("O Tupiniquim virou para o Norte!"); break;
+                case 1: Console.WriteLine("O Tupiniquim virou para o Leste!"); break;
+                case 2: Console.WriteLine("O Tupiniquim virou para o Sul!"); break;
+                case 3: Console.WriteLine("O Tupiniquim virou para o Oeste!"); break;
             }
         }
 
 
-            static void geradorDeMatriz()
+        static void geradorDeMatriz(int linhas, int colunas)
+        {
+            string[,] matriz = new string[linhas, colunas];
+
+            for (int i = 1; i < linhas; i++)
             {
-                linhas = obterValor<int>("Digite a quantidade de Linhas (Eixo X) da matriz: ") + 1;
-                colunas = obterValor<int>("Digite a quantidade de Colunas (Eixo Y) da matriz: ") + 1;
-
-                string[,] matriz = new string[linhas, colunas];
-                Console.Clear();
-                for (int i = 1; i < linhas; i++)
+                for (int j = 1; j < colunas; j++)
                 {
-                    for (int j = 1; j < colunas; j++)
-                    {
-                        int linhaInversa = linhas  - i;
-                        matriz[i, j] = $"[{linhaInversa},{j}]";
-                    }
+                    int matrizXInvertida = linhas - i;
+
+                    matriz[i, j] = $"{j}, {matrizXInvertida}  ";
+                    Console.Write($"[{j},{matrizXInvertida}]  ");
+
                 }
-
-                for (int i = 1; i < linhas; i++)
-                {
-                    for (int j = 1; j < colunas; j++)
-                    {
-
-                        Console.Write(matriz[i, j] + " ");
-                    }
-                    Console.WriteLine();
-                    Console.WriteLine();
-                }
-
+                Console.WriteLine();
+                Console.WriteLine();
             }
+
+        }
 
 
         static tipo obterValor<tipo>(string texto)
@@ -149,11 +124,20 @@
             }
             catch (FormatException)
             {
-                Console.WriteLine("Valor inválido, tente novamente!");
+                Console.WriteLine("Formato inválido!");
                 return obterValor<tipo>(texto);
             }
         }
-
     }
 }
 
+//INPUT
+// 5 5  
+//1 2 N
+//E M E M E M E M M
+//3 3 L  
+//M M D M M D M D D M
+
+//Output esperado: 
+//1 3 N
+//5 1 L  
