@@ -65,10 +65,10 @@
                         }
                         break;
                     case "D": // Vira para a direita
-                        visao = (visao - 1 + 4) % 4;
+                        visao = (visao + 1) % 4;
                         break;
                     case "E": // Vira para a esquerda
-                        visao = (visao + 1 + 4) % 4;
+                        visao = (visao - 1 + 4) % 4;
                         break;
                 }
 
