@@ -23,7 +23,7 @@
             string[] comandos, deployTupiniquim;
 
             string deploy = obterValor<string>("Digite as coordenadas do deploy do robo: \n" +
-                "Utilize o padrão((Coordenada X) (Coordenada Y) (Direção))");
+                "Utilize o padrão((Coordenada X) (Coordenada Y) (Direção))\n Legenda de direção :\n\t0 - Norte\n\t1 - Leste\n\t2 - Sul\n\t3 - Oeste");
             deployTupiniquim = deploy.Split(" ");
 
             string inputDeComandos = obterValor<string>("Insira os comandos para o robô: ");
